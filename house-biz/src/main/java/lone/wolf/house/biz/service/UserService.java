@@ -55,8 +55,8 @@ public class UserService {
         BeanHelper.setDefaultProp(account, User.class);
         BeanHelper.onInsert(account);
         account.setEnable(0);
-        //        userMapper.insert(account);
-        //        mailService.registerNotif(account.getEmail());
+//        userMapper.insert(account);
+//        mailService.registerNotif(account.getEmail());
         return true;
     }
 
@@ -90,11 +90,27 @@ public class UserService {
         return null;
     }
 
+    /**
+     * 查询用户信息
+     *
+     * @param user
+     * @return
+     */
     public List<User> getUserByQuery(User user) {
         List<User> list = userMapper.selectUsersByQuery(user);
-        list.forEach(u->{
+        list.forEach(u -> {
             u.setAvatar(imgPrefix + u.getAvatar());
         });
         return list;
+    }
+
+    /**
+     * 修改个人信息
+     *
+     * @param updateUser
+     */
+    public void updateUser(User updateUser) {
+        BeanHelper.onUpdate(updateUser);
+        userMapper.update(updateUser);
     }
 }

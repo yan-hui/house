@@ -4,6 +4,7 @@ import lone.wolf.house.biz.service.UserService;
 import lone.wolf.house.common.constants.CommonConstants;
 import lone.wolf.house.common.model.User;
 import lone.wolf.house.common.result.ResultMsg;
+import lone.wolf.house.common.utils.HashUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @Description
@@ -72,16 +74,69 @@ public class UserController {
         } else {
             HttpSession session = request.getSession(true);
             session.setAttribute(CommonConstants.USER_ATTRIBUTE, user);
-            session.setAttribute(CommonConstants.PLAIN_USER_ATTRIBUTE, user);
+//            session.setAttribute(CommonConstants.PLAIN_USER_ATTRIBUTE, user);
             return StringUtils.isNoneBlank(target) ? "redirect:" + target : "redirect:/index";
         }
     }
 
-    @RequestMapping("accouts/logout")
+    @RequestMapping("accounts/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         session.invalidate();
         return "redirect:/index";
+
+    }
+
+
+    //---------------------------个人信息------------------------
+
+    /**
+     * 1、可以提供页面信息
+     * 2、更新用户信息
+     *
+     * @param request
+     * @param updateUser
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping("accounts/profile")
+    public String profile(HttpServletRequest request, User updateUser, ModelMap modelMap) {
+        if (null == updateUser.getEmail()) {
+            return "/user/accounts/profile";
+        }
+        userService.updateUser(updateUser);
+        User query = new User();
+        query.setEmail(updateUser.getEmail());
+        List<User> users = userService.getUserByQuery(query);
+        request.getSession(true).setAttribute(CommonConstants.USER_ATTRIBUTE, users.get(0));
+        return "redirect:/accounts/profile?" + ResultMsg.successMsg("更新成功").asUrlParams();
+    }
+
+    /**
+     * 修改密码操作
+     *
+     * @param email
+     * @param oldPassword
+     * @param newPassword
+     * @param confirmPassword
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping("accounts/changePassword")
+    public String changePassword(String email, String oldPassword, String newPassword, String confirmPassword, ModelMap modelMap) {
+        User user = userService.auth(email, oldPassword);
+        if (null == user) {
+            return "redirect:/accounts/profile?" + ResultMsg.errorMsg("密码错误").asUrlParams();
+        }
+        if (!newPassword.equals(confirmPassword)) {
+            return "redirect:/accounts/profile?" + ResultMsg.errorMsg("两次输入密码不一致").asUrlParams();
+
+        }
+        User updateUser = new User();
+        updateUser.setPasswd(HashUtils.encryPassword(newPassword));
+        updateUser.setEmail(email);
+        userService.updateUser(updateUser);
+        return "redirect:/accounts/profile?" + ResultMsg.errorMsg("更新成功").asUrlParams();
 
     }
 

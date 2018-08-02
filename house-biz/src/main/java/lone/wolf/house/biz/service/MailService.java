@@ -1,5 +1,6 @@
 package lone.wolf.house.biz.service;
 
+import com.google.common.base.Objects;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalListener;
@@ -15,6 +16,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -40,7 +42,13 @@ public class MailService {
     private final Cache<String, String> registerCache = CacheBuilder.newBuilder().maximumSize(100).expireAfterAccess(15, TimeUnit.MINUTES).removalListener(new RemovalListener<String, String>() {
         @Override
         public void onRemoval(RemovalNotification<String, String> notification) {
-            userMapper.delete(notification.getValue());
+            String email = notification.getValue();
+            User user = new User();
+            user.setEmail(email);
+            List<User> targetUser = userMapper.selectUsersByQuery(user);
+            if (!targetUser.isEmpty() && Objects.equal(targetUser.get(0).getEnable(), 0)) {
+                userMapper.delete(notification.getValue());//在删除前首先判断用户是否已经被激活，对于未激活的用户进行移除操作
+            }
         }
     }).build();
 

@@ -56,7 +56,7 @@
     </update>
     
     
-    <select id="selectUsersByQuery">
+    <select id="selectUsersByQuery" resultType="user">
         select * from user
         <where>
             <if test="id !=null">
