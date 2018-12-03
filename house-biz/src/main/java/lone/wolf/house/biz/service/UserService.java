@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -55,8 +54,8 @@ public class UserService {
         BeanHelper.setDefaultProp(account, User.class);
         BeanHelper.onInsert(account);
         account.setEnable(0);
-//        userMapper.insert(account);
-//        mailService.registerNotif(account.getEmail());
+        userMapper.insert(account);
+        mailService.registerNotif(account.getEmail());
         return true;
     }
 

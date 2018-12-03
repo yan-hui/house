@@ -36,7 +36,7 @@ public class FileService {
                     localFile = saveToLocal(file, filePath);
                     String absolutePath = localFile.getAbsolutePath();
                     filePath = filePath.replaceAll("/", "\\\\");
-                    String path = StringUtils.substringAfterLast(absolutePath, filePath);
+                    String path = StringUtils.substringAfterLast(absolutePath, filePath);//filePath最后出现的位置向后截取
                     paths.add(path);
                 } catch (IOException e) {
                     throw new IllegalArgumentException(e);

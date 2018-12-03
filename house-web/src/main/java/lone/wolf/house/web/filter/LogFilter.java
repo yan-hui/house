@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -21,7 +22,8 @@ public class LogFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        logger.info("request coming..............");
+        HttpServletRequest req = (HttpServletRequest) request;
+        logger.warn("=-=-=-=-=-=-=-=-=-=-=-=-="+req.getRequestURL()+"  request coming=-=-=-=-=-=-=-=-=-=-=-=-=");
         chain.doFilter(request, response);
     }
 
