@@ -23,7 +23,7 @@ public class LogFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-        logger.warn("=-=-=-=-=-=-=-=-=-=-=-=-="+req.getRequestURL()+"  request coming=-=-=-=-=-=-=-=-=-=-=-=-=");
+        //logger.warn("=-=-=-=-=-=-=-=-=-=-=-=-="+req.getRequestURL()+"  request coming=-=-=-=-=-=-=-=-=-=-=-=-=");
         chain.doFilter(request, response);
     }
 

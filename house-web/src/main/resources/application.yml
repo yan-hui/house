@@ -5,7 +5,9 @@ server:
 spring:
   druid:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/house?characterEncoding=UTF-8
+#    url: jdbc:mysql://192.168.153.66:3306/house?characterEncoding=UTF-8
+    url: jdbc:mysql://127.0.0.1:3306/house?characterEncoding=UTF-8
+#    url: jdbc:mysql://127.0.0.1:3306/house?characterEncoding=UTF-8
     username: root
     password: 123456
     #\u6700\u5927\u8FDE\u63A5\u6570
@@ -50,7 +52,8 @@ mybatis:
   config-location: classpath:/mybatis/mybatis-config.xml
 
 file:
-  path: /Users/hch/opt/imgs
+  path: /usr/local/opt/imgs
+#  prefix: http://192.168.153.66:8087/images
   prefix: http://127.0.0.1:8087/images
 domain:
   name: 127.0.0.1:8090

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lone.wolf.house.biz.mapper.HouseMapper">
+    <sql id="houseField">
+        a.id,
+        a.name,
+        a.type,
+        a.price,
+        a.images,
+        a.area,
+        a.beds,
+        a.baths,
+        a.rating,
+        a.remarks,
+        a.properties,
+        a.floor_plan,
+        a.tags,
+        a.create_time,
+        a.city_id,
+        a.community_id,
+        a.address,
+        a.state
+    </sql>
+
+    <sql id="houseCondition">
+        <where>
+            <if test="house.id!=null and house.id!=0">
+                and a.id = #{house.id}
+            </if>
+            <if test="house.type!=null">
+                and a.type=#{house.type}
+            </if>
+            <if test="house.name!=null and house.name!=''">
+                <bind name="name_pattern" value="'%' + house.name+ '%'"></bind>
+                and a.name=#{name_pattern}
+            </if>
+            <if test="house.ids">
+                and a.id in
+                <foreach collection="house.ids" item="item" index="index" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <!--房屋列表分页查询-->
+    <select id="selectPageHouse" resultType="house">
+        select
+        <include refid="houseField"></include>
+        from house a
+        <include refid="houseCondition"></include>
+        <choose>
+            <when test="house.sort!=null and house.sort=='price_asc'">
+                order by a.price asc
+            </when>
+            <when test="house.sort!=null and house.sort=='price_desc'">
+                order by a.price desc
+            </when>
+
+        </choose>
+        <if test="pageParams.offset!=null and pageParams.limit!=null">
+            limit #{pageParams.offset},#{pageParams.limit}
+        </if>
+        <if test="pageParams.offset==null and pageParams.limit!=null">
+            limit #{pageParams.limitpageParams}
+        </if>
+    </select>
+
+    <!--总数-->
+    <select id="selectPageCount" resultType="long">
+        select count(id)
+        from house a
+        <include refid="houseCondition"></include>
+    </select>
+    <!--查询小区-->
+    <select id="selectCommunity" resultType="community">
+        select * from community
+        <where>
+            <if test="id!=null and id != 0">
+                and id =#{id}
+            </if>
+            <if test="name!=null and name!=''">
+                and name = #{name}
+            </if>
+        </where>
+
+    </select>
+</mapper>
