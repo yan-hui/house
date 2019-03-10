@@ -16,17 +16,16 @@ public class Pagination {
     private long totalCount;
     private List<Integer> pages = Lists.newArrayList();
 
-    public Pagination(int pageNum, int pageSize, long totalCount) {
+    public Pagination(Integer pageSize, Integer pageNum, Long totalCount) {
+        this.totalCount = totalCount;
         this.pageNum = pageNum;
         this.pageSize = pageSize;
-        this.totalCount = totalCount;
-        for (int i = 1; i < pageNum; i++) {
+        for (int i = 1; i <= pageNum; i++) {
             pages.add(i);
         }
-        //页数
         Long pageCount = totalCount / pageSize + ((totalCount % pageSize == 0) ? 0 : 1);
         if (pageCount > pageNum) {
-            for (int i = pageNum + 1; i < pageCount; i++) {
+            for (int i = pageNum + 1; i <= pageCount; i++) {
                 pages.add(i);
             }
         }

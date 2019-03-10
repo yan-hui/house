@@ -58,7 +58,7 @@
                                         <dt>地址</dt>
                                             <dd>${house.address}</dd>
                                         <dt>价格</dt>
-                                            <dd><span class="tag price">${house.priceStr}</span></dd>
+                                            <dd><span class="tag price">${house.priceStr!"XXX"}</span></dd>
                                         <dt>类型:</dt>
                                             <dd>销售</dd>
                                         <dt>面积:</dt>
@@ -149,10 +149,10 @@
                                             </div><!-- /.col-md-7 -->
                                             <div class="col-md-5 col-sm-12">
                                                 <div class="agent-form">
-                                                    <form role="form" id="form-contact-agent" method="post" action="/house/leaveMsg" class="clearfix">
+                                                    <form role="form" id="form-contact-agent" method="post" action="/house/agentMsg" class="clearfix">
                                                         <div class="form-group">
                                                             <label for="form-contact-agent-name">你的名字<em>*</em></label>
-                                                            <input type="hidden" name="agentId" value="${(agent.id)!}">
+                                                            <input type="text" name="agentId" value="${(agent.id)!}">
                                                             <input type="hidden" name="houseId" value="${house.id}">
                                                             <input type="text" class="form-control" id="name" name="userName" required>
                                                         </div><!-- /.form-group -->
@@ -192,7 +192,7 @@
                                                     </form><!-- /#form-contact -->
                                                 </div>
                                     <header><h2 class="no-border">Comments</h2></header>
-                                    <ul class="comments">
+                                  <#--  <ul class="comments">
                                       <#list commentList as comment> 
                                         <li class="comment" style="width: 830px;">
                                             <figure>
@@ -209,7 +209,7 @@
                                             </div>
                                         </li>
                                       </#list>
-                                    </ul>
+                                    </ul>-->
                                 </section>
                             </div><!-- /.col-md-12 -->
                             

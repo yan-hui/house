@@ -10,16 +10,11 @@ import java.util.List;
  */
 public class PageData<T> {
     private List<T> list;
-    private Pagination pagination;
+    private Pagination pagination;//pageNum,pageSize,page list
 
-    public static <T> PageData<T> buildPage(List<T> list, long count, Integer pageSize, Integer pageNum) {
-        Pagination pagination = new Pagination(pageSize, pageNum, count);
-        return new PageData<>(list, pagination);
-    }
-
-    public PageData(List<T> list, Pagination pagination) {
-        this.list = list;
+    public PageData(Pagination pagination, List<T> list) {
         this.pagination = pagination;
+        this.list = list;
     }
 
     public List<T> getList() {
@@ -36,5 +31,10 @@ public class PageData<T> {
 
     public void setPagination(Pagination pagination) {
         this.pagination = pagination;
+    }
+
+    public static <T> PageData<T> buildPage(List<T> list, Long count, Integer pageSize, Integer pageNum) {
+        Pagination _pagination = new Pagination(pageSize, pageNum, count);
+        return new PageData<>(_pagination, list);
     }
 }

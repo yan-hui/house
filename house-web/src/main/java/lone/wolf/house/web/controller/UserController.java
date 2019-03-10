@@ -1,11 +1,13 @@
 package lone.wolf.house.web.controller;
 
+import lone.wolf.house.biz.service.AgencyService;
 import lone.wolf.house.biz.service.UserService;
 import lone.wolf.house.common.constants.CommonConstants;
 import lone.wolf.house.common.model.User;
 import lone.wolf.house.common.result.ResultMsg;
 import lone.wolf.house.common.utils.HashUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,8 @@ import java.util.List;
 public class UserController {
     @Resource
     private UserService userService;
+    @Autowired
+    private AgencyService agencyService;
 
     /**
      * 用户注册
@@ -35,6 +39,7 @@ public class UserController {
     @RequestMapping("accounts/register")
     public String accountRegister(User account, ModelMap modelMap) {
         if (null == account || null == account.getName()) {
+            modelMap.put("agencyList",  agencyService.getAllAgency());
             return "/user/accounts/register";
         }
         //用户验证

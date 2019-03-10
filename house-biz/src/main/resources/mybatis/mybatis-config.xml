@@ -16,9 +16,13 @@
         <typeAlias type="lone.wolf.house.common.model.User" alias="user"/>
         <typeAlias type="lone.wolf.house.common.model.House" alias="house"/>
         <typeAlias type="lone.wolf.house.common.model.Community" alias="community"/>
+        <typeAlias type="lone.wolf.house.common.model.City" alias="city"/>
+        <typeAlias type="lone.wolf.house.common.model.HouseUser" alias="houseUser"/>
+        <typeAlias type="lone.wolf.house.common.model.Agency" alias="agency"/>
     </typeAliases>
     <mappers>
         <mapper resource="mapper/user.xml"/>
         <mapper resource="mapper/house.xml"/>
+        <mapper resource="mapper/agency.xml"/>
     </mappers>
 </configuration>

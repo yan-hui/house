@@ -1,5 +1,7 @@
 package lone.wolf.house.common.model;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -98,6 +100,8 @@ public class House {
      * 户型图列表
      */
     private List<String> floorPlanList = Lists.newArrayList();
+    private List<String> featureList   = Lists.newArrayList();
+
     /**
      * 房屋文件
      */
@@ -123,6 +127,11 @@ public class House {
      */
     private String sort = "time_desc";
 
+    private String priceStr;
+
+    private String typeStr;
+
+
     public Long getId() {
         return id;
     }
@@ -145,6 +154,11 @@ public class House {
 
     public void setType(Integer type) {
         this.type = type;
+        if (Objects.equal(type, 1) && Objects.equal(type, 0)) {
+            this.typeStr = "For Sale";
+        }else {
+            this.typeStr = "For Rent";
+        }
     }
 
     public Integer getPrice() {
@@ -153,6 +167,7 @@ public class House {
 
     public void setPrice(Integer price) {
         this.price = price;
+        this.priceStr = this.price + "万元";
     }
 
     public String getImages() {
@@ -216,6 +231,7 @@ public class House {
 
     public void setProperties(String properties) {
         this.properties = properties;
+        this.featureList = Splitter.on(",").splitToList(properties);
     }
 
     public String getFloorPlan() {
@@ -224,6 +240,9 @@ public class House {
 
     public void setFloorPlan(String floorPlan) {
         this.floorPlan = floorPlan;
+        if (!Strings.isNullOrEmpty(floorPlan)) {
+            this.floorPlanList = Splitter.on(",").splitToList(floorPlan);
+        }
     }
 
     public String getTags() {
@@ -346,8 +365,34 @@ public class House {
         this.sort = sort;
     }
 
+    public List<String> getFeatureList() {
+        return featureList;
+    }
+
+    public void setFeatureList(List<String> featureList) {
+        this.featureList = featureList;
+        this.properties = Joiner.on(",").join(featureList);
+
+    }
+
+    public String getPriceStr() {
+        return priceStr;
+    }
+
+    public void setPriceStr(String priceStr) {
+        this.priceStr = priceStr;
+    }
+
+    public String getTypeStr() {
+        return typeStr;
+    }
+
+    public void setTypeStr(String typeStr) {
+        this.typeStr = typeStr;
+    }
+
     @Override
     public String toString() {
-        return "House{" + "id=" + id + ", name='" + name + '\'' + ", type=" + type + ", price=" + price + ", images='" + images + '\'' + ", area=" + area + ", beds=" + beds + ", baths=" + baths + ", rating=" + rating + ", remarks='" + remarks + '\'' + ", properties='" + properties + '\'' + ", floorPlan='" + floorPlan + '\'' + ", tags='" + tags + '\'' + ", createTime=" + createTime + ", cityId=" + cityId + ", communityId=" + communityId + ", address='" + address + '\'' + ", state=" + state + ", firstImg='" + firstImg + '\'' + ", imageList=" + imageList + ", floorPlanList=" + floorPlanList + ", houseFiles=" + houseFiles + ", floorPlanFiles=" + floorPlanFiles + ", userId=" + userId + ", bookMarked=" + bookMarked + ", ids=" + ids + '}';
+        return "House{" + "id=" + id + ", name='" + name + '\'' + ", type=" + type + ", price=" + price + ", images='" + images + '\'' + ", area=" + area + ", beds=" + beds + ", baths=" + baths + ", rating=" + rating + ", remarks='" + remarks + '\'' + ", properties='" + properties + '\'' + ", floorPlan='" + floorPlan + '\'' + ", tags='" + tags + '\'' + ", createTime=" + createTime + ", cityId=" + cityId + ", communityId=" + communityId + ", address='" + address + '\'' + ", state=" + state + ", firstImg='" + firstImg + '\'' + ", imageList=" + imageList + ", floorPlanList=" + floorPlanList + ", featureList=" + featureList + ", houseFiles=" + houseFiles + ", floorPlanFiles=" + floorPlanFiles + ", userId=" + userId + ", bookMarked=" + bookMarked + ", ids=" + ids + ", sort='" + sort + '\'' + ", priceStr='" + priceStr + '\'' + ", typeStr='" + typeStr + '\'' + '}';
     }
 }

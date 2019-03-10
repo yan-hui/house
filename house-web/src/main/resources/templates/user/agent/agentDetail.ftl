@@ -187,7 +187,7 @@
                                 </div><!-- /.form-group -->
                             </form><!-- /#form-map -->
                         </aside><!-- /#edit-search -->
-                        <aside id="featured-properties">
+                      <#--  <aside id="featured-properties">
                             <header><h3>热门房产</h3></header>
                             <#list recomHouses as house>
                             <div class="property small">
@@ -201,10 +201,10 @@
                                     <figure>${(house.address)!} </figure>
                                     <div class="tag price">￥${(house.price)!}</div>
                                 </div>
-                            </div><!-- /.property -->
+                            </div><!-- /.property &ndash;&gt;
                             </#list>
                             
-                        </aside><!-- /#featured-properties -->
+                        </aside>--><!-- /#featured-properties -->
                        
                     </section><!-- /#sidebar -->
                 </div><!-- /.col-md-3 -->
